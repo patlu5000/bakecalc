@@ -1,0 +1,9 @@
+{
+  "name": "react-tutorial",
+  "version": "0.0.1",
+  "description": "Pricing calculator for home-baked goods",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~4.6.1"
+  }
+}
