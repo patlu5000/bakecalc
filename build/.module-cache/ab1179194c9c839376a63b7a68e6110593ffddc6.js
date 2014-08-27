@@ -54,20 +54,16 @@ var Calculator = React.createClass({displayName: 'Calculator',
       var deliveryTotal = (this.state.miles * this.state.rate).toFixed(2);
       return (
           React.DOM.div({className: "calculator row"}, 
-          React.DOM.div({className: "col-md-7"}, 
           ItemsBox({name: "Ingredients", inputsComponent: IngredientInputs, activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput}), 
           ItemsBox({name: "Supplies", inputsComponent: SupplyInputs, activeItems: this.state.supplies, presetItems: PRESET_SUPPLIES, onUserInput: this.handleSuppliesInput}), 
           TimeBox({onUserInput: this.handleTimeInput}), 
           OverheadBox({onUserInput: this.handleOverheadInput}), 
-          DeliveryBox({onUserInput: this.handleDeliveryInput})
-          ), 
-          React.DOM.div({className: "col-md-5"}, 
+          DeliveryBox({onUserInput: this.handleDeliveryInput}), 
           React.DOM.h4(null, "Ingredients total: ", ingredientsTotal), 
           React.DOM.h4(null, "Supplies total: ", suppliesTotal), 
           React.DOM.h4(null, "Time total: ", timeTotal), 
           React.DOM.h4(null, "Overhead total: ", overheadTotal), 
           React.DOM.h4(null, "Delivery total: ", deliveryTotal)
-          )
           )
           );
     }
@@ -103,7 +99,7 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
           );
       }.bind(this));
       return (
-          React.DOM.div({className: "input-box"}, 
+          React.DOM.div({className: "itemsBox"}, 
           React.DOM.h3(null, this.props.name), 
           itemFields, 
           React.DOM.div(null, "Choose your items below:"), 

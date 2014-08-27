@@ -53,17 +53,21 @@ var Calculator = React.createClass({
       var overheadTotal = Number(this.state.overhead).toFixed(2);
       var deliveryTotal = (this.state.miles * this.state.rate).toFixed(2);
       return (
-          <div className="calculator">
-          <ItemsBox inputsComponent={IngredientInputs} activeItems={this.state.ingredients} presetItems={PRESET_INGREDIENTS} onUserInput={this.handleIngredientsInput} />
-          <ItemsBox inputsComponent={SupplyInputs} activeItems={this.state.supplies} presetItems={PRESET_SUPPLIES} onUserInput={this.handleSuppliesInput} />
+          <div className="calculator row">
+          <div className="col-md-7">
+          <ItemsBox name="Ingredients" inputsComponent={IngredientInputs} activeItems={this.state.ingredients} presetItems={PRESET_INGREDIENTS} onUserInput={this.handleIngredientsInput} />
+          <ItemsBox name="Supplies" inputsComponent={SupplyInputs} activeItems={this.state.supplies} presetItems={PRESET_SUPPLIES} onUserInput={this.handleSuppliesInput} />
           <TimeBox onUserInput={this.handleTimeInput} />
           <OverheadBox onUserInput={this.handleOverheadInput} />
           <DeliveryBox onUserInput={this.handleDeliveryInput} />
+          </div>
+          <div className="col-md-5">
           <h4>Ingredients total: {ingredientsTotal}</h4>
           <h4>Supplies total: {suppliesTotal}</h4>
           <h4>Time total: {timeTotal}</h4>
           <h4>Overhead total: {overheadTotal}</h4>
           <h4>Delivery total: {deliveryTotal}</h4>
+          </div>
           </div>
           );
     }
@@ -99,8 +103,8 @@ var ItemsBox = React.createClass({
           );
       }.bind(this));
       return (
-          <div className="itemsBox">
-          <h3>Items</h3>
+          <div className="input-box">
+          <h3>{this.props.name}</h3>
           {itemFields}
           <div>Choose your items below:</div>
           {itemLinks}
@@ -150,7 +154,7 @@ var SupplyInputs = React.createClass({
       name: this.refs.supplyNameInput.getDOMNode().value, 
       cost: this.refs.supplyCostInput.getDOMNode().value 
     };
-    this.props.onSupplyChange(this.props.item.key, changes);
+    this.props.onItemChange(this.props.item.key, changes);
   },
     render: function() {
       if (_.contains(_.pluck(PRESET_SUPPLIES, "key"), this.props.item.key)) {
@@ -181,7 +185,7 @@ var AddItemLink = React.createClass({
     render: function() {
       var displayName = this.props.item.name || "something else";
       return(
-        <a onClick={this.handleClick}>{displayName} </a>
+        <a onClick={this.handleClick}>{displayName}</a>
         );
     }
 });

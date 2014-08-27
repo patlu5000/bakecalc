@@ -61,13 +61,11 @@ var Calculator = React.createClass({displayName: 'Calculator',
           OverheadBox({onUserInput: this.handleOverheadInput}), 
           DeliveryBox({onUserInput: this.handleDeliveryInput})
           ), 
-          React.DOM.div({className: "col-md-5"}, 
           React.DOM.h4(null, "Ingredients total: ", ingredientsTotal), 
           React.DOM.h4(null, "Supplies total: ", suppliesTotal), 
           React.DOM.h4(null, "Time total: ", timeTotal), 
           React.DOM.h4(null, "Overhead total: ", overheadTotal), 
           React.DOM.h4(null, "Delivery total: ", deliveryTotal)
-          )
           )
           );
     }
@@ -103,7 +101,7 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
           );
       }.bind(this));
       return (
-          React.DOM.div({className: "input-box"}, 
+          React.DOM.div({className: "itemsBox"}, 
           React.DOM.h3(null, this.props.name), 
           itemFields, 
           React.DOM.div(null, "Choose your items below:"), 

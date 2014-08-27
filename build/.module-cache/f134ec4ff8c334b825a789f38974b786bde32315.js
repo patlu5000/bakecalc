@@ -103,7 +103,7 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
           );
       }.bind(this));
       return (
-          React.DOM.div({className: "input-box"}, 
+          React.DOM.div({className: "itemsBox"}, 
           React.DOM.h3(null, this.props.name), 
           itemFields, 
           React.DOM.div(null, "Choose your items below:"), 
