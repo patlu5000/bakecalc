@@ -1,0 +1,326 @@
+/** @jsx React.DOM */
+
+var PRESET_INGREDIENTS = [ 
+{ "key": "baking-powder", "name": "baking powder", "unit": "teaspoons", "cost": 0.08 }, 
+{ "key": "butter", "name": "butter", "unit": "cups", "cost": 0.5 }, 
+{ "key": "chocolate-chips", "name": "chocolate chips", "unit": "cups", "cost": 1.1 }, 
+{ "key": "cinnamon", "name": "cinnamon", "unit": "teaspoons", "cost": 0.06 }, 
+{ "key": "cocoa", "name": "cocoa", "unit": "cups", "cost": 1.54 }, 
+{ "key": "eggs", "name": "eggs", "unit": null, "cost": 0.25 }, 
+{ "key": "flour", "name": "flour", "unit": "cups", "cost": 0.1 }, 
+{ "key": "margarine", "name": "margarine", "unit": "cups", "cost": 0.5 }, 
+{ "key": "milk", "name": "milk", "unit": "cups", "cost": 0.17 }, 
+{ "key": "shortening", "name": "shortening", "unit": "cups", "cost": 0.66 }, 
+{ "key": "sugar", "name": "sugar", "unit": "cups", "cost": 0.3 }, 
+{ "key": "vanilla", "name": "vanilla", "unit": "teaspoons", "cost": 0.04 }, 
+{ "key": "vegetable-oil", "name": "vegetable oil", "unit": "cups", "cost": 0.46 }, 
+{ "key": "yeast", "name": "yeast", "unit": "packages", "cost": 0.51 } 
+];
+
+var PRESET_SUPPLIES = [
+{ "key": "box", "name": "box", "cost": 1.00 },
+{ "key": "cake-board", "name": "cake board", "cost": 1.00 },
+{ "key": "cake-circle", "name": "cake circle", "cost": 1.00 },
+{ "key": "dowel-rod", "name": "dowel rod", "cost": 1.00 },
+{ "key": "serving-stand", "name": "serving stand", "cost": 1.00 }
+];
+
+
+var runningKey = 0;
+
+var Calculator = React.createClass({displayName: 'Calculator',
+  getInitialState: function() {
+    return { ingredients: [], supplies: [], hours: 0, wage: 0, overhead: 0, miles: 0, rate: 0 };
+  },
+    handleIngredientsInput: function(ingredients) {
+      this.setState({ ingredients: ingredients });
+    },
+    handleSuppliesInput: function(supplies) {
+      this.setState({ supplies: supplies });
+    },
+    handleTimeInput: function(hours, wage) {
+      this.setState({ hours: hours, wage: wage });
+    },
+    handleOverheadInput: function(overhead) {
+      this.setState({ overhead: overhead });
+    },
+    handleDeliveryInput: function(miles, rate) {
+      this.setState({ miles: miles, rate: rate });
+    },
+    render: function() {
+      var ingredientsTotal = _.reduce(_.map(this.state.ingredients, function(ing){ return ing['cost'] * ing['quantity'] }), function(memo, num){ return memo + num; }, 0).toFixed(2);
+      var suppliesTotal = _.reduce(_.map(this.state.supplies, function(ing){ return ing['cost'] * ing['quantity'] }), function(memo, num){ return memo + num; }, 0).toFixed(2);
+      var timeTotal = (this.state.hours * this.state.wage).toFixed(2);
+      var overheadTotal = Number(this.state.overhead).toFixed(2);
+      var deliveryTotal = (this.state.miles * this.state.rate).toFixed(2);
+      return (
+          React.DOM.div({className: "calculator"}, 
+          ItemsBox({activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput}), 
+          SuppliesBox({activeSupplies: this.state.supplies, onUserInput: this.handleSuppliesInput}), 
+          TimeBox({onUserInput: this.handleTimeInput}), 
+          OverheadBox({onUserInput: this.handleOverheadInput}), 
+          DeliveryBox({onUserInput: this.handleDeliveryInput}), 
+          React.DOM.h4(null, "Ingredients total: ", ingredientsTotal), 
+          React.DOM.h4(null, "Supplies total: ", suppliesTotal), 
+          React.DOM.h4(null, "Time total: ", timeTotal), 
+          React.DOM.h4(null, "Overhead total: ", overheadTotal), 
+          React.DOM.h4(null, "Delivery total: ", deliveryTotal)
+          )
+          );
+    }
+});
+
+var ItemsBox = React.createClass({displayName: 'ItemsBox',
+  handleItemSelect: function(item) {
+    var items = this.props.activeItems;
+    if(!item.key) {
+      item["key"] = runningKey;
+      runningKey = runningKey + 1;
+    }
+    items.push(item);
+    this.props.onUserInput(items);
+  },
+    handleItemChange: function(key, changes) {
+      var items = this.props.activeItems;
+      item = _.find(items, function(i){ return i.key == key });
+      index = _.indexOf(items, item);
+      item = _.extend(item, changes);
+      items[index] = item;
+      this.props.onUserInput(items);
+    },
+    render: function() {
+      var itemLinks = _.difference(presetItems, this.props.activeItems).map(function(item) {
+        return (
+          AddItemLink({onItemSelect: this.handleItemSelect, item: item})
+          );
+      }.bind(this));
+      var itemFields = this.props.activeItems.map(function(item) {
+        return (
+          ItemInputs({onItemChange: this.handleItemChange, key: item.key, item: item})
+          );
+      }.bind(this));
+      return (
+          React.DOM.div({className: "itemsBox"}, 
+          React.DOM.h3(null, "Items"), 
+          itemFields, 
+          React.DOM.div(null, "Choose your items below:"), 
+          itemLinks, 
+          AddItemLink({onItemSelect: this.handleItemSelect, item: { quantity: 1, name: "", cost: null}})
+          )
+          );
+    }
+});
+
+
+var IngredientsBox = React.createClass({displayName: 'IngredientsBox',
+  handleIngredientSelect: function(ingredient) {
+    var ingredients = this.props.activeIngredients;
+    if (!ingredient.key) {
+      ingredient["key"] = runningKey;
+      runningKey = runningKey + 1;
+    }
+    ingredients.push(ingredient);
+    this.props.onUserInput(ingredients);
+  },
+    handleIngredientChange: function(key, changes) {
+      var ingredients = this.props.activeIngredients;
+      ingredient = _.find(ingredients, function(i){ return i.key == key });
+      index = _.indexOf(ingredients, ingredient);
+      ingredient = _.extend(ingredient, changes);
+      ingredients[index] = ingredient;
+      this.props.onUserInput(ingredients);
+    },
+    render: function() {
+      var ingredientLinks = _.difference(PRESET_INGREDIENTS, this.props.activeIngredients).map(function(ingredient) {
+        return (
+          AddItemLink({onItemSelect: this.handleIngredientSelect, item: ingredient})
+          );
+      }.bind(this));
+      var ingredientFields = this.props.activeIngredients.map(function(ingredient) {
+        return (
+          IngredientInputs({onIngredientChange: this.handleIngredientChange, key: ingredient.key, ingredient: ingredient})
+          );
+      }.bind(this));
+      return (
+          React.DOM.div({className: "ingredientsBox"}, 
+          React.DOM.h3(null, "Ingredients"), 
+          ingredientFields, 
+          React.DOM.div(null, "Choose your ingredients below:"), 
+          ingredientLinks, 
+          AddItemLink({onItemSelect: this.handleIngredientSelect, item: { quantity: 1, name: "", cost: null}})
+          )
+          );
+    }
+});
+
+var IngredientInputs = React.createClass({displayName: 'IngredientInputs',
+  handleChange: function(event) {
+    var changes = { 
+      quantity: this.refs.ingredientQuantityInput.getDOMNode().value, 
+      name: this.refs.ingredientNameInput.getDOMNode().value, 
+      cost: this.refs.ingredientCostInput.getDOMNode().value 
+    };
+    this.props.onIngredientChange(this.props.ingredient.key, changes);
+  },
+    render: function() {
+      if ( _.contains(_.pluck(PRESET_INGREDIENTS, "key"), this.props.ingredient.key)) {
+        var firstInput = React.DOM.input({defaultValue: this.props.ingredient.quantity, type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
+        var middleText = this.props.ingredient.unit + " of " + this.props.ingredient.name + " at ";
+        var endText = "per ";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.ingredient.name, type: "text", ref: "ingredientNameInput", onChange: this.handleChange});
+      } else {
+        var firstInput = React.DOM.input({defaultValue: this.props.ingredient.name, type: "text", ref: "ingredientNameInput", onChange: this.handleChange});
+        var middleText = " at ";
+        var endText = "";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.ingredient.quantity, type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
+      }
+      return (
+        React.DOM.div(null, 
+        firstInput, 
+        middleText, 
+        React.DOM.input({defaultValue: this.props.ingredient.cost, type: "number", ref: "ingredientCostInput", onChange: this.handleChange}), 
+        endText, 
+        hiddenInput
+        )
+        );
+    }
+});
+
+var SupplyInputs = React.createClass({displayName: 'SupplyInputs',
+  handleChange: function(event) {
+    var changes = { 
+      quantity: this.refs.supplyQuantityInput.getDOMNode().value, 
+      name: this.refs.supplyNameInput.getDOMNode().value, 
+      cost: this.refs.supplyCostInput.getDOMNode().value 
+    };
+    this.props.onSupplyChange(this.props.supply.key, changes);
+  },
+    render: function() {
+      if (_.contains(_.pluck(PRESET_SUPPLIES, "key"), this.props.supply.key)) {
+        var firstInput = React.DOM.input({defaultValue: this.props.supply.quantity, type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
+        var middleText = this.props.supply.name + " at ";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.supply.name, type: "text", ref: "supplyNameInput", onChange: this.handleChange});
+      } else {
+        var firstInput = React.DOM.input({defaultValue: this.props.supply.name, type: "text", ref: "supplyNameInput", onChange: this.handleChange});
+        var middleText = " at ";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.supply.quantity, type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
+      }
+      return (
+        React.DOM.div(null, 
+        firstInput, 
+        middleText, 
+        React.DOM.input({defaultValue: this.props.supply.cost, type: "number", ref: "supplyCostInput", onChange: this.handleChange}), 
+        hiddenInput
+        )
+        );
+    }
+});
+
+var SuppliesBox = React.createClass({displayName: 'SuppliesBox',
+  handleSupplySelect: function(supply) {
+    var supplies = this.props.activeSupplies;
+    if (!supply.key) {
+      supply["key"] = runningKey;
+      runningKey = runningKey + 1;
+    }
+    supplies.push(supply);
+    this.props.onUserInput(supplies);
+  },
+    handleSupplyChange: function(key, changes) {
+      var supplies = this.props.activeSupplies;
+      supply = _.find(supplies, function(i){ return i.key == key });
+      index = _.indexOf(supplies, supply);
+      supply = _.extend(supply, changes)
+      supplies[index] = supply;
+      this.props.onUserInput(supplies);
+    },
+    render: function() {
+      var supplyLinks = _.difference(PRESET_SUPPLIES, this.props.activeSupplies).map(function(supply) {
+        return (
+          AddItemLink({onItemSelect: this.handleSupplySelect, item: supply})
+          );
+      }.bind(this));
+      var supplyFields = this.props.activeSupplies.map(function(supply) {
+        return (
+          SupplyInputs({onSupplyChange: this.handleSupplyChange, key: supply.key, supply: supply})
+          );
+      }.bind(this));
+      return (
+          React.DOM.div({className: "suppliesBox"}, 
+          React.DOM.h3(null, "Supplies"), 
+          supplyFields, 
+          React.DOM.div(null, "Choose your supplies below:"), 
+          supplyLinks, 
+          AddItemLink({onItemSelect: this.handleSupplySelect, item: { quantity: 1, name: "", cost: null}})
+          )
+          );
+    }
+});
+
+var AddItemLink = React.createClass({displayName: 'AddItemLink',
+  handleClick: function(event) {
+    this.props.onItemSelect(this.props.item);
+    return false;
+  },
+    render: function() {
+      var displayName = this.props.item.name || "something else";
+      return(
+        React.DOM.a({onClick: this.handleClick}, displayName, " ")
+        );
+    }
+});
+
+var TimeBox = React.createClass({displayName: 'TimeBox',
+  handleChange: function(event) {
+    this.props.onUserInput(
+      this.refs.timeHoursInput.getDOMNode().value,
+      this.refs.timeWageInput.getDOMNode().value
+    );
+  },
+    render: function() {
+      return (
+        React.DOM.div(null, 
+        React.DOM.h3(null, "Time"), 
+        React.DOM.input({type: "number", ref: "timeHoursInput", onChange: this.handleChange}), " hours at",  
+        React.DOM.input({type: "number", ref: "timeWageInput", onChange: this.handleChange}), " an hour"
+        )
+        );
+    }
+});
+
+var OverheadBox = React.createClass({displayName: 'OverheadBox',
+  handleChange: function(event) {
+    this.props.onUserInput(this.refs.overheadInput.getDOMNode().value);
+  },
+    render: function() {
+      return(
+        React.DOM.div(null, 
+        React.DOM.h3(null, "Overhead"), 
+        React.DOM.input({type: "number", ref: "overheadInput", onChange: this.handleChange})
+        )
+        );
+    }
+});
+
+var DeliveryBox = React.createClass({displayName: 'DeliveryBox',
+  handleChange: function(event) {
+    this.props.onUserInput(
+      this.refs.deliveryMilesInput.getDOMNode().value,
+      this.refs.deliveryRateInput.getDOMNode().value
+      );
+  },
+    render: function() {
+      return (
+        React.DOM.div(null, 
+        React.DOM.h3(null, "Delivery"), 
+        React.DOM.input({type: "number", ref: "deliveryMilesInput", onChange: this.handleChange}), " miles at",  
+        React.DOM.input({type: "number", ref: "deliveryRateInput", onChange: this.handleChange}), " per mile"
+        )
+        );
+    }
+});
+
+React.renderComponent(
+    Calculator(null),
+    document.getElementById('content')
+    );
