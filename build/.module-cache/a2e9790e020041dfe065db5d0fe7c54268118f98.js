@@ -2,8 +2,8 @@
 
 var PRESET_INGREDIENTS = [ 
 { "key": "baking-powder", "name": "baking powder", "unit": "teaspoons", "cost": 0.08 }, 
-{ "key": "butter", "name": "butter", "unit": "cups", "cost": 0.50 }, 
-{ "key": "chocolate-chips", "name": "chocolate chips", "unit": "cups", "cost": 1.10 }, 
+{ "key": "butter", "name": "butter", "unit": "cups", "cost": 0.5 }, 
+{ "key": "chocolate-chips", "name": "chocolate chips", "unit": "cups", "cost": 1.1 }, 
 { "key": "cinnamon", "name": "cinnamon", "unit": "teaspoons", "cost": 0.06 }, 
 { "key": "cocoa", "name": "cocoa", "unit": "cups", "cost": 1.54 }, 
 { "key": "eggs", "name": "eggs", "unit": null, "cost": 0.25 }, 
@@ -18,7 +18,7 @@ var PRESET_INGREDIENTS = [
 ];
 
 var PRESET_SUPPLIES = [
-{ "key": "box", "name": "box", "cost": 0.31 },
+{ "key": "box", "name": "box", "cost": 1.00 },
 { "key": "cake-board", "name": "cake board", "cost": 1.00 },
 { "key": "cake-circle", "name": "cake circle", "cost": 1.00 },
 { "key": "dowel-rod", "name": "dowel rod", "cost": 1.00 },
@@ -55,13 +55,11 @@ var Calculator = React.createClass({displayName: 'Calculator',
       return (
           React.DOM.div({className: "calculator row"}, 
           React.DOM.div({className: "col-md-7"}, 
-          React.DOM.form({className: "form-inline"}, 
           ItemsBox({name: "Ingredients", inputsComponent: IngredientInputs, activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput}), 
           ItemsBox({name: "Supplies", inputsComponent: SupplyInputs, activeItems: this.state.supplies, presetItems: PRESET_SUPPLIES, onUserInput: this.handleSuppliesInput}), 
           TimeBox({onUserInput: this.handleTimeInput}), 
           OverheadBox({onUserInput: this.handleOverheadInput}), 
           DeliveryBox({onUserInput: this.handleDeliveryInput})
-          )
           ), 
           React.DOM.div({className: "col-md-5"}, 
           React.DOM.h4(null, "Ingredients total: ", ingredientsTotal), 
@@ -78,7 +76,6 @@ var Calculator = React.createClass({displayName: 'Calculator',
 var ItemsBox = React.createClass({displayName: 'ItemsBox',
   handleItemSelect: function(item) {
     var items = this.props.activeItems;
-    item["quantity"] = 1
     if(!item.key) {
       item["key"] = runningKey;
       runningKey = runningKey + 1;
@@ -97,7 +94,7 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
     render: function() {
       var itemLinks = _.difference(this.props.presetItems, this.props.activeItems).map(function(item) {
         return (
-          React.DOM.li(null, AddItemLink({onItemSelect: this.handleItemSelect, item: item}))
+          AddItemLink({onItemSelect: this.handleItemSelect, item: item})
           );
       }.bind(this));
       var itemFields = this.props.activeItems.map(function(item) {
@@ -110,10 +107,8 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
           React.DOM.h3(null, this.props.name), 
           itemFields, 
           React.DOM.div(null, "Choose your items below:"), 
-          React.DOM.ul({className: "list-inline"}, 
           itemLinks, 
-          React.DOM.li(null, AddItemLink({onItemSelect: this.handleItemSelect, item: { quantity: 1, name: "", cost: null}}))
-          )
+          AddItemLink({onItemSelect: this.handleItemSelect, item: { quantity: 1, name: "", cost: null}})
           )
           );
     }
@@ -130,23 +125,23 @@ var IngredientInputs = React.createClass({displayName: 'IngredientInputs',
   },
     render: function() {
       if ( _.contains(_.pluck(PRESET_INGREDIENTS, "key"), this.props.item.key)) {
-        var quantity = React.DOM.input({defaultValue: this.props.item.quantity, type: "number", className: "form-control input-sm", type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
-        var name = React.DOM.span(null, " ", this.props.item.unit, " of ", React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "ingredientNameInput", onChange: this.handleChange}), React.DOM.strong({className: "item-name"}, this.props.item.name), " at ");
-        var endText = " per.";
+        var firstInput = React.DOM.input({defaultValue: this.props.item.quantity, type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
+        var middleText = this.props.item.unit + " of " + this.props.item.name + " at ";
+        var endText = "per ";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "ingredientNameInput", onChange: this.handleChange});
       } else {
-        var quantity = React.DOM.input({hidden: true, defaultValue: this.props.item.quantity, type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
-        var name = React.DOM.span(null, React.DOM.input({defaultValue: this.props.item.name, type: "text", className: "form-control input-sm", ref: "ingredientNameInput", onChange: this.handleChange}), " at ");
+        var firstInput = React.DOM.input({defaultValue: this.props.item.name, type: "text", ref: "ingredientNameInput", onChange: this.handleChange});
+        var middleText = " at ";
         var endText = "";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.item.quantity, type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
       }
       return (
-        React.DOM.div({className: "input-fields"}, 
-        quantity, 
-        name, 
-        React.DOM.div({className: "input-group input-group-sm"}, 
-        React.DOM.span({className: "input-group-addon"}, "$"), 
-        React.DOM.input({defaultValue: this.props.item.cost, type: "number", className: "form-control", ref: "ingredientCostInput", onChange: this.handleChange})
-        ), 
-        endText
+        React.DOM.div(null, 
+        firstInput, 
+        middleText, 
+        React.DOM.input({defaultValue: this.props.item.cost, type: "number", ref: "ingredientCostInput", onChange: this.handleChange}), 
+        endText, 
+        hiddenInput
         )
         );
     }
@@ -163,20 +158,20 @@ var SupplyInputs = React.createClass({displayName: 'SupplyInputs',
   },
     render: function() {
       if (_.contains(_.pluck(PRESET_SUPPLIES, "key"), this.props.item.key)) {
-        var quantity = React.DOM.input({defaultValue: this.props.item.quantity, type: "number", className: "form-control input-sm", type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
-        var name = React.DOM.span(null, React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "supplyNameInput", onChange: this.handleChange}), " ", React.DOM.strong({className: "item-name"}, this.props.item.name), " at ");
+        var firstInput = React.DOM.input({defaultValue: this.props.item.quantity, type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
+        var middleText = this.props.item.name + " at ";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "supplyNameInput", onChange: this.handleChange});
       } else {
-        var quantity = React.DOM.input({hidden: true, defaultValue: this.props.item.quantity, type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
-        var name = React.DOM.span(null, React.DOM.input({defaultValue: this.props.item.name, type: "text", className: "form-control input-sm", ref: "supplyNameInput", onChange: this.handleChange}), " at ");
+        var firstInput = React.DOM.input({defaultValue: this.props.item.name, type: "text", ref: "supplyNameInput", onChange: this.handleChange});
+        var middleText = " at ";
+        var hiddenInput = React.DOM.input({hidden: true, defaultValue: this.props.item.quantity, type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
       }
       return (
-        React.DOM.div({className: "input-fields"}, 
-        quantity, 
-        name, 
-        React.DOM.div({className: "input-group input-group-sm"}, 
-        React.DOM.span({className: "input-group-addon"}, "$"), 
-        React.DOM.input({defaultValue: this.props.item.cost, className: "form-control", type: "number", ref: "supplyCostInput", onChange: this.handleChange})
-        )
+        React.DOM.div(null, 
+        firstInput, 
+        middleText, 
+        React.DOM.input({defaultValue: this.props.item.cost, type: "number", ref: "supplyCostInput", onChange: this.handleChange}), 
+        hiddenInput
         )
         );
     }
@@ -204,14 +199,10 @@ var TimeBox = React.createClass({displayName: 'TimeBox',
   },
     render: function() {
       return (
-        React.DOM.div({className: "input-box"}, 
+        React.DOM.div(null, 
         React.DOM.h3(null, "Time"), 
-        React.DOM.div({className: "input-fields"}, 
-        React.DOM.input({type: "number", className: "form-control input-sm", ref: "timeHoursInput", onChange: this.handleChange}), " hours at ", React.DOM.div({className: "input-group input-group-sm"}, 
-        React.DOM.span({className: "input-group-addon"}, "$"), 
-        React.DOM.input({type: "number", className: "form-control input-sm", ref: "timeWageInput", onChange: this.handleChange})
-        ), " an hour."
-        )
+        React.DOM.input({type: "number", ref: "timeHoursInput", onChange: this.handleChange}), " hours at",  
+        React.DOM.input({type: "number", ref: "timeWageInput", onChange: this.handleChange}), " an hour"
         )
         );
     }
@@ -223,14 +214,9 @@ var OverheadBox = React.createClass({displayName: 'OverheadBox',
   },
     render: function() {
       return(
-        React.DOM.div({className: "input-box"}, 
+        React.DOM.div(null, 
         React.DOM.h3(null, "Overhead"), 
-        React.DOM.div({className: "input-fields"}, 
-        React.DOM.div({className: "input-group input-group-sm"}, 
-        React.DOM.span({className: "input-group-addon"}, "$"), 
-        React.DOM.input({type: "number", className: "form-control input-sm", ref: "overheadInput", onChange: this.handleChange})
-        )
-        )
+        React.DOM.input({type: "number", ref: "overheadInput", onChange: this.handleChange})
         )
         );
     }
@@ -245,14 +231,10 @@ var DeliveryBox = React.createClass({displayName: 'DeliveryBox',
   },
     render: function() {
       return (
-        React.DOM.div({className: "input-box"}, 
+        React.DOM.div(null, 
         React.DOM.h3(null, "Delivery"), 
-        React.DOM.div({className: "input-fields"}, 
-        React.DOM.input({type: "number", className: "form-control input-sm", ref: "deliveryMilesInput", onChange: this.handleChange}), " miles at ", React.DOM.div({className: "input-group input-group-sm"}, 
-        React.DOM.span({className: "input-group-addon"}, "$"), 
-        React.DOM.input({type: "number", className: "form-control input-sm", ref: "deliveryRateInput", onChange: this.handleChange})
-        ), " per mile."
-        )
+        React.DOM.input({type: "number", ref: "deliveryMilesInput", onChange: this.handleChange}), " miles at",  
+        React.DOM.input({type: "number", ref: "deliveryRateInput", onChange: this.handleChange}), " per mile"
         )
         );
     }

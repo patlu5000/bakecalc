@@ -78,7 +78,6 @@ var Calculator = React.createClass({displayName: 'Calculator',
 var ItemsBox = React.createClass({displayName: 'ItemsBox',
   handleItemSelect: function(item) {
     var items = this.props.activeItems;
-    item["quantity"] = 1
     if(!item.key) {
       item["key"] = runningKey;
       runningKey = runningKey + 1;
@@ -131,7 +130,7 @@ var IngredientInputs = React.createClass({displayName: 'IngredientInputs',
     render: function() {
       if ( _.contains(_.pluck(PRESET_INGREDIENTS, "key"), this.props.item.key)) {
         var quantity = React.DOM.input({defaultValue: this.props.item.quantity, type: "number", className: "form-control input-sm", type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
-        var name = React.DOM.span(null, " ", this.props.item.unit, " of ", React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "ingredientNameInput", onChange: this.handleChange}), React.DOM.strong({className: "item-name"}, this.props.item.name), " at ");
+        var name = React.DOM.span(null, " ", this.props.item.unit, " of ", React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "ingredientNameInput", onChange: this.handleChange}), React.DOM.strong(null, this.props.item.name), " at ");
         var endText = " per.";
       } else {
         var quantity = React.DOM.input({hidden: true, defaultValue: this.props.item.quantity, type: "number", ref: "ingredientQuantityInput", onChange: this.handleChange});
@@ -164,7 +163,7 @@ var SupplyInputs = React.createClass({displayName: 'SupplyInputs',
     render: function() {
       if (_.contains(_.pluck(PRESET_SUPPLIES, "key"), this.props.item.key)) {
         var quantity = React.DOM.input({defaultValue: this.props.item.quantity, type: "number", className: "form-control input-sm", type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
-        var name = React.DOM.span(null, React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "supplyNameInput", onChange: this.handleChange}), " ", React.DOM.strong({className: "item-name"}, this.props.item.name), " at ");
+        var name = React.DOM.span(null, React.DOM.input({hidden: true, defaultValue: this.props.item.name, type: "text", ref: "supplyNameInput", onChange: this.handleChange}), " ", React.DOM.strong(null, this.props.item.name), " at ");
       } else {
         var quantity = React.DOM.input({hidden: true, defaultValue: this.props.item.quantity, type: "number", ref: "supplyQuantityInput", onChange: this.handleChange});
         var name = React.DOM.span(null, React.DOM.input({defaultValue: this.props.item.name, type: "text", className: "form-control input-sm", ref: "supplyNameInput", onChange: this.handleChange}), " at ");
@@ -207,10 +206,11 @@ var TimeBox = React.createClass({displayName: 'TimeBox',
         React.DOM.div({className: "input-box"}, 
         React.DOM.h3(null, "Time"), 
         React.DOM.div({className: "input-fields"}, 
-        React.DOM.input({type: "number", className: "form-control input-sm", ref: "timeHoursInput", onChange: this.handleChange}), " hours at ", React.DOM.div({className: "input-group input-group-sm"}, 
+        React.DOM.input({type: "number", className: "form-control input-sm", ref: "timeHoursInput", onChange: this.handleChange}), " hours at",  
+        React.DOM.div({className: "input-group input-group-sm"}, 
         React.DOM.span({className: "input-group-addon"}, "$"), 
         React.DOM.input({type: "number", className: "form-control input-sm", ref: "timeWageInput", onChange: this.handleChange})
-        ), " an hour."
+        ), " an hour"
         )
         )
         );

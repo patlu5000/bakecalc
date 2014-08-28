@@ -78,7 +78,6 @@ var Calculator = React.createClass({displayName: 'Calculator',
 var ItemsBox = React.createClass({displayName: 'ItemsBox',
   handleItemSelect: function(item) {
     var items = this.props.activeItems;
-    item["quantity"] = 1
     if(!item.key) {
       item["key"] = runningKey;
       runningKey = runningKey + 1;

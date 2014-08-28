@@ -2,8 +2,8 @@
 
 var PRESET_INGREDIENTS = [ 
 { "key": "baking-powder", "name": "baking powder", "unit": "teaspoons", "cost": 0.08 }, 
-{ "key": "butter", "name": "butter", "unit": "cups", "cost": 0.5 }, 
-{ "key": "chocolate-chips", "name": "chocolate chips", "unit": "cups", "cost": 1.1 }, 
+{ "key": "butter", "name": "butter", "unit": "cups", "cost": 0.50 }, 
+{ "key": "chocolate-chips", "name": "chocolate chips", "unit": "cups", "cost": 1.10 }, 
 { "key": "cinnamon", "name": "cinnamon", "unit": "teaspoons", "cost": 0.06 }, 
 { "key": "cocoa", "name": "cocoa", "unit": "cups", "cost": 1.54 }, 
 { "key": "eggs", "name": "eggs", "unit": null, "cost": 0.25 }, 
@@ -18,7 +18,7 @@ var PRESET_INGREDIENTS = [
 ];
 
 var PRESET_SUPPLIES = [
-{ "key": "box", "name": "box", "cost": 1.00 },
+{ "key": "box", "name": "box", "cost": 0.31 },
 { "key": "cake-board", "name": "cake board", "cost": 1.00 },
 { "key": "cake-circle", "name": "cake circle", "cost": 1.00 },
 { "key": "dowel-rod", "name": "dowel rod", "cost": 1.00 },
@@ -55,11 +55,13 @@ var Calculator = React.createClass({
       return (
           <div className="calculator row">
           <div className="col-md-7">
+          <form className="form-inline">
           <ItemsBox name="Ingredients" inputsComponent={IngredientInputs} activeItems={this.state.ingredients} presetItems={PRESET_INGREDIENTS} onUserInput={this.handleIngredientsInput} />
           <ItemsBox name="Supplies" inputsComponent={SupplyInputs} activeItems={this.state.supplies} presetItems={PRESET_SUPPLIES} onUserInput={this.handleSuppliesInput} />
           <TimeBox onUserInput={this.handleTimeInput} />
           <OverheadBox onUserInput={this.handleOverheadInput} />
           <DeliveryBox onUserInput={this.handleDeliveryInput} />
+          </form>
           </div>
           <div className="col-md-5">
           <h4>Ingredients total: {ingredientsTotal}</h4>
@@ -76,6 +78,7 @@ var Calculator = React.createClass({
 var ItemsBox = React.createClass({
   handleItemSelect: function(item) {
     var items = this.props.activeItems;
+    item["quantity"] = 1
     if(!item.key) {
       item["key"] = runningKey;
       runningKey = runningKey + 1;
@@ -94,7 +97,7 @@ var ItemsBox = React.createClass({
     render: function() {
       var itemLinks = _.difference(this.props.presetItems, this.props.activeItems).map(function(item) {
         return (
-          <AddItemLink onItemSelect={this.handleItemSelect} item={item} />
+          <li><AddItemLink onItemSelect={this.handleItemSelect} item={item} /></li>
           );
       }.bind(this));
       var itemFields = this.props.activeItems.map(function(item) {
@@ -107,8 +110,10 @@ var ItemsBox = React.createClass({
           <h3>{this.props.name}</h3>
           {itemFields}
           <div>Choose your items below:</div>
+          <ul className="list-inline">
           {itemLinks}
-          <AddItemLink onItemSelect={this.handleItemSelect} item={{ quantity: 1, name: "", cost: null }} />
+          <li><AddItemLink onItemSelect={this.handleItemSelect} item={{ quantity: 1, name: "", cost: null }} /></li>
+          </ul>
           </div>
           );
     }
@@ -125,23 +130,23 @@ var IngredientInputs = React.createClass({
   },
     render: function() {
       if ( _.contains(_.pluck(PRESET_INGREDIENTS, "key"), this.props.item.key)) {
-        var firstInput = <input defaultValue={this.props.item.quantity} type="number" ref="ingredientQuantityInput" onChange={this.handleChange} />;
-        var middleText = this.props.item.unit + " of " + this.props.item.name + " at ";
-        var endText = "per ";
-        var hiddenInput = <input hidden defaultValue={this.props.item.name} type="text" ref="ingredientNameInput" onChange={this.handleChange} />;
+        var quantity = <input defaultValue={this.props.item.quantity} type="number" className="form-control input-sm" type="number" ref="ingredientQuantityInput" onChange={this.handleChange} />;
+        var name = <span> {this.props.item.unit} of <input hidden defaultValue={this.props.item.name} type="text" ref="ingredientNameInput" onChange={this.handleChange} /><strong className="item-name">{this.props.item.name}</strong> at </span>;
+        var endText = " per.";
       } else {
-        var firstInput = <input defaultValue={this.props.item.name} type="text" ref="ingredientNameInput" onChange={this.handleChange} />;
-        var middleText = " at ";
+        var quantity = <input hidden defaultValue={this.props.item.quantity} type="number" ref="ingredientQuantityInput" onChange={this.handleChange} />;
+        var name = <span><input defaultValue={this.props.item.name} type="text" className="form-control input-sm" ref="ingredientNameInput" onChange={this.handleChange} /> at </span>;
         var endText = "";
-        var hiddenInput = <input hidden defaultValue={this.props.item.quantity} type="number" ref="ingredientQuantityInput" onChange={this.handleChange} />;
       }
       return (
-        <div>
-        {firstInput}
-        {middleText}
-        <input defaultValue={this.props.item.cost} type="number" ref="ingredientCostInput" onChange={this.handleChange} />
+        <div className="input-fields">
+        {quantity}
+        {name}
+        <div className="input-group input-group-sm">
+        <span className="input-group-addon">$</span>
+        <input defaultValue={this.props.item.cost} type="number" className="form-control" ref="ingredientCostInput" onChange={this.handleChange} />
+        </div>
         {endText}
-        {hiddenInput}
         </div>
         );
     }
@@ -158,20 +163,20 @@ var SupplyInputs = React.createClass({
   },
     render: function() {
       if (_.contains(_.pluck(PRESET_SUPPLIES, "key"), this.props.item.key)) {
-        var firstInput = <input defaultValue={this.props.item.quantity} type="number" ref="supplyQuantityInput" onChange={this.handleChange} />;
-        var middleText = this.props.item.name + " at ";
-        var hiddenInput = <input hidden defaultValue={this.props.item.name} type="text" ref="supplyNameInput" onChange={this.handleChange} />;
+        var quantity = <input defaultValue={this.props.item.quantity} type="number" className="form-control input-sm" type="number" ref="supplyQuantityInput" onChange={this.handleChange} />;
+        var name = <span><input hidden defaultValue={this.props.item.name} type="text" ref="supplyNameInput" onChange={this.handleChange} /> <strong className="item-name">{this.props.item.name}</strong> at </span>;
       } else {
-        var firstInput = <input defaultValue={this.props.item.name} type="text" ref="supplyNameInput" onChange={this.handleChange} />;
-        var middleText = " at ";
-        var hiddenInput = <input hidden defaultValue={this.props.item.quantity} type="number" ref="supplyQuantityInput" onChange={this.handleChange} />;
+        var quantity = <input hidden defaultValue={this.props.item.quantity} type="number" ref="supplyQuantityInput" onChange={this.handleChange} />;
+        var name = <span><input defaultValue={this.props.item.name} type="text" className="form-control input-sm" ref="supplyNameInput" onChange={this.handleChange} /> at </span>;
       }
       return (
-        <div>
-        {firstInput}
-        {middleText}
-        <input defaultValue={this.props.item.cost} type="number" ref="supplyCostInput" onChange={this.handleChange} />
-        {hiddenInput}
+        <div className="input-fields">
+        {quantity}
+        {name}
+        <div className="input-group input-group-sm">
+        <span className="input-group-addon">$</span>
+        <input defaultValue={this.props.item.cost} className="form-control" type="number" ref="supplyCostInput" onChange={this.handleChange} />
+        </div>
         </div>
         );
     }
@@ -185,7 +190,7 @@ var AddItemLink = React.createClass({
     render: function() {
       var displayName = this.props.item.name || "something else";
       return(
-        <a onClick={this.handleClick}>{displayName}</a>
+        <a onClick={this.handleClick} className="item-link">{displayName}</a>
         );
     }
 });
@@ -199,10 +204,14 @@ var TimeBox = React.createClass({
   },
     render: function() {
       return (
-        <div>
+        <div className="input-box">
         <h3>Time</h3>
-        <input type="number" ref="timeHoursInput" onChange={this.handleChange} /> hours at 
-        <input type="number" ref="timeWageInput" onChange={this.handleChange} /> an hour
+        <div className="input-fields">
+        <input type="number" className="form-control input-sm" ref="timeHoursInput" onChange={this.handleChange} /> hours at <div className="input-group input-group-sm">
+        <span className="input-group-addon">$</span>
+        <input type="number" className="form-control input-sm" ref="timeWageInput" onChange={this.handleChange} />
+        </div> an hour.
+        </div>
         </div>
         );
     }
@@ -214,9 +223,14 @@ var OverheadBox = React.createClass({
   },
     render: function() {
       return(
-        <div>
+        <div className="input-box">
         <h3>Overhead</h3>
-        <input type="number" ref="overheadInput" onChange={this.handleChange} />
+        <div className="input-fields">
+        <div className="input-group input-group-sm">
+        <span className="input-group-addon">$</span>
+        <input type="number" className="form-control input-sm" ref="overheadInput" onChange={this.handleChange} />
+        </div>
+        </div>
         </div>
         );
     }
@@ -231,10 +245,14 @@ var DeliveryBox = React.createClass({
   },
     render: function() {
       return (
-        <div>
+        <div className="input-box">
         <h3>Delivery</h3>
-        <input type="number" ref="deliveryMilesInput" onChange={this.handleChange} /> miles at 
-        <input type="number" ref="deliveryRateInput" onChange={this.handleChange} /> per mile
+        <div className="input-fields">
+        <input type="number" className="form-control input-sm" ref="deliveryMilesInput" onChange={this.handleChange} /> miles at <div className="input-group input-group-sm">
+        <span className="input-group-addon">$</span>
+        <input type="number" className="form-control input-sm" ref="deliveryRateInput" onChange={this.handleChange} /> 
+        </div> per mile.
+        </div>
         </div>
         );
     }
