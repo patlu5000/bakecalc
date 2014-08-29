@@ -1,5 +1,23 @@
 body {
-  font-family: "Raleway", "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+  position: relative;
+}
+
+body:after {
+  background-image: url('plaid.jpg');
+  width: 100%;
+  height: 100%;
+  opacity : 0.4;
+  z-index: -1;
+  content : "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+h1.header {
+  font-family: "Lobster",cursive;
 }
 
 .logo {
@@ -7,16 +25,25 @@ body {
 }
 
 .input-box {
-  padding: 2px 18px;
-  margin-bottom: 25px;
-  background-color: #FAFAFA;
+  background-color: #fff;
+}
+
+.input-box .panel-title {
+  font-size: 24px;
+}
+
+ul.item-links {
+  font-size: 17px;
 }
 
 .item-link {
+  background-color: #B9C9D1;
   cursor: pointer;
 }
 
 .item-name {
+  color: #000;
+  font-weight: 700;
   border-bottom: 1px solid #DDD;
 }
 
@@ -25,9 +52,21 @@ body {
 }
 
 input[type="text"].form-control {
-  width: 150px;
+  width: 200px;
 }
 
 input[type="number"].form-control {
   width: 100px !important;
+}
+
+.calculation-box .list-group-item {
+  background-color: #fff;
+}
+
+.calculation-box .panel-footer {
+  background-color: #fff;
+}
+
+.footer {
+  margin-bottom: 15px;
 }
