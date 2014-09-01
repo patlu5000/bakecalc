@@ -37,7 +37,7 @@ ul.item-links {
 }
 
 .item-link {
-  background-color: #B9C9D1;
+  background-color: #2C3D42;
   cursor: pointer;
 }
 
@@ -74,3 +74,35 @@ input[type="number"].form-control {
 .input-group-addon{
   width: 0%;
 }
+
+.fa-stack{
+  font-size: 25px !important;
+}
+
+.ingredients-icon .fa-circle{
+  color: #04A19A;
+}
+
+.supplies-icon .fa-circle{
+  color: #F36E6D;
+}
+
+.delivery-icon .fa-circle{
+  color: #028A8E;
+}
+
+.overhead-icon .fa-circle{
+  color: #F04B55;
+}
+
+.time-icon .fa-circle{
+  color: #00575B;
+}
+
+.panel-heading{
+    padding-bottom: 2px;
+    border-bottom-width: thin;
+    border-bottom-style: solid;
+    border-bottom-color: #EEEEEE;
+}
+
