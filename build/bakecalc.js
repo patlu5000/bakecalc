@@ -1,19 +1,19 @@
 /** @jsx React.DOM */
 
-var PRESET_INGREDIENTS = [ 
-{ key: "baking-powder", name: "baking powder", unit: "teaspoon", cost: 0.10, amazonUrl: "http://www.amazon.com/gp/product/B005P0I7T6/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B005P0I7T6&linkCode=as2&tag=bake064-20&linkId=M77A54TG4MQIER5O" }, 
-{ key: "butter", name: "butter", unit: "stick", cost: 1.08, amazonUrl: "https://fresh.amazon.com/product?asin=B000R47UXO&qid=211242736&rank=3&sr=1-3&tag=img" }, 
-{ key: "chocolate-chips", name: "chocolate chips", unit: "cup", cost: 3.04, amazonUrl: "http://www.amazon.com/gp/product/B004YVOFB6/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B004YVOFB6&linkCode=as2&tag=bake064-20&linkId=AZ5L6KVQPL3DM4KN" }, 
-{ key: "cinnamon", name: "cinnamon", unit: "teaspoon", cost: 0.09, amazonUrl: "http://www.amazon.com/gp/product/B00ASD2F8O/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00ASD2F8O&linkCode=as2&tag=bake064-20&linkId=LKNJWCH6FVF6LFJP" }, 
-{ key: "cacao-powder", name: "cacao powder", unit: "tablespoon", cost: 0.31, amazonUrl: "http://www.amazon.com/gp/product/B00EKLPLU4/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00EKLPLU4&linkCode=as2&tag=bake064-20&linkId=TWA6AFPCG2WGP5C4" }, 
-{ key: "eggs", name: "eggs", unit: null, cost: 0.42, amazonUrl: "https://fresh.amazon.com/product?asin=B00CIZCSIM&qid=211245709&rank=1&sr=1-1&tag=img" }, 
-{ key: "flour", name: "flour", unit: "cup", cost: 0.43, amazonUrl: "http://www.amazon.com/gp/product/B004IN43SU/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B004IN43SU&linkCode=as2&tag=bake064-20&linkId=FNFR3GVTBEPSERFC" }, 
-{ key: "milk", name: "milk", unit: "cup", cost: 0.40 , amazonUrl: "https://fresh.amazon.com/product?asin=B000O6EG9G&qid=211247028&rank=1&sr=1-1&tag=img" }, 
-{ key: "shortening", name: "shortening", unit: "cup", cost: 0.65, amazonUrl: "http://www.amazon.com/Crisco-All-Vegetable-Shortening-48/dp/B00I8G7L0A/ref=sr_1_1?ie=UTF8&qid=1409337504&sr=1-1&keywords=shortening" }, 
-{ key: "sugar", name: "sugar", unit: "cup", cost: 1.17, amazonUrl: "http://www.amazon.com/gp/product/B002MBKF0U/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B002MBKF0U&linkCode=as2&tag=bake064-20&linkId=R23X4JS63JLXCD54" }, 
-{ key: "vanilla", name: "vanilla", unit: "teaspoon", cost: 0.10, amazonUrl: "http://www.amazon.com/gp/product/B005MIWPGC/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B005MIWPGC&linkCode=as2&tag=bake064-20&linkId=CUKX7EF7XHVQF5LI" }, 
-{ key: "vegetable-oil", name: "vegetable oil", unit: "cup", cost: 0.56, amazonUrl: "http://www.amazon.com/gp/product/B00I8G79ES/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00I8G79ES&linkCode=as2&tag=bake064-20&linkId=OGJ3UCLCBRFH2BKK" }, 
-{ key: "yeast", name: "yeast", unit: "teaspooon", cost: 0.08, amazonUrl: "http://www.amazon.com/gp/product/B0001CXUHW/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B0001CXUHW&linkCode=as2&tag=bake064-20&linkId=MXWTN4C73Y77SJTT" } 
+var PRESET_INGREDIENTS = [
+{ key: "baking-powder", name: "baking powder", unit: "teaspoon", cost: 0.10, amazonUrl: "http://www.amazon.com/gp/product/B005P0I7T6/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B005P0I7T6&linkCode=as2&tag=bake064-20&linkId=M77A54TG4MQIER5O" },
+{ key: "butter", name: "butter", unit: "stick", cost: 1.08, amazonUrl: "https://fresh.amazon.com/product?asin=B000R47UXO&qid=211242736&rank=3&sr=1-3&tag=img" },
+{ key: "chocolate-chips", name: "chocolate chips", unit: "cup", cost: 3.04, amazonUrl: "http://www.amazon.com/gp/product/B004YVOFB6/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B004YVOFB6&linkCode=as2&tag=bake064-20&linkId=AZ5L6KVQPL3DM4KN" },
+{ key: "cinnamon", name: "cinnamon", unit: "teaspoon", cost: 0.09, amazonUrl: "http://www.amazon.com/gp/product/B00ASD2F8O/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00ASD2F8O&linkCode=as2&tag=bake064-20&linkId=LKNJWCH6FVF6LFJP" },
+{ key: "cacao-powder", name: "cacao powder", unit: "tablespoon", cost: 0.31, amazonUrl: "http://www.amazon.com/gp/product/B00EKLPLU4/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00EKLPLU4&linkCode=as2&tag=bake064-20&linkId=TWA6AFPCG2WGP5C4" },
+{ key: "eggs", name: "eggs", unit: null, cost: 0.42, amazonUrl: "https://fresh.amazon.com/product?asin=B00CIZCSIM&qid=211245709&rank=1&sr=1-1&tag=img" },
+{ key: "flour", name: "flour", unit: "cup", cost: 0.43, amazonUrl: "http://www.amazon.com/gp/product/B004IN43SU/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B004IN43SU&linkCode=as2&tag=bake064-20&linkId=FNFR3GVTBEPSERFC" },
+{ key: "milk", name: "milk", unit: "cup", cost: 0.40 , amazonUrl: "https://fresh.amazon.com/product?asin=B000O6EG9G&qid=211247028&rank=1&sr=1-1&tag=img" },
+{ key: "shortening", name: "shortening", unit: "cup", cost: 0.65, amazonUrl: "http://www.amazon.com/Crisco-All-Vegetable-Shortening-48/dp/B00I8G7L0A/ref=sr_1_1?ie=UTF8&qid=1409337504&sr=1-1&keywords=shortening" },
+{ key: "sugar", name: "sugar", unit: "cup", cost: 1.17, amazonUrl: "http://www.amazon.com/gp/product/B002MBKF0U/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B002MBKF0U&linkCode=as2&tag=bake064-20&linkId=R23X4JS63JLXCD54" },
+{ key: "vanilla", name: "vanilla", unit: "teaspoon", cost: 0.10, amazonUrl: "http://www.amazon.com/gp/product/B005MIWPGC/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B005MIWPGC&linkCode=as2&tag=bake064-20&linkId=CUKX7EF7XHVQF5LI" },
+{ key: "vegetable-oil", name: "vegetable oil", unit: "cup", cost: 0.56, amazonUrl: "http://www.amazon.com/gp/product/B00I8G79ES/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00I8G79ES&linkCode=as2&tag=bake064-20&linkId=OGJ3UCLCBRFH2BKK" },
+{ key: "yeast", name: "yeast", unit: "teaspooon", cost: 0.08, amazonUrl: "http://www.amazon.com/gp/product/B0001CXUHW/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B0001CXUHW&linkCode=as2&tag=bake064-20&linkId=MXWTN4C73Y77SJTT" }
 ];
 
 var PRESET_SUPPLIES = [
@@ -49,8 +49,8 @@ var Calculator = React.createClass({displayName: 'Calculator',
           React.DOM.div({className: "calculator row"}, 
           React.DOM.div({className: "col-md-8"}, 
           React.DOM.form({className: "form-inline"}, 
-          ItemsBox({name: "Ingredients", inputsComponent: IngredientInputs, activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput}), 
-          ItemsBox({name: "Supplies", inputsComponent: SupplyInputs, activeItems: this.state.supplies, presetItems: PRESET_SUPPLIES, onUserInput: this.handleSuppliesInput}), 
+          ItemsBox({name: "Ingredients", inputsComponent: IngredientInputs, activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput, iconClass: "fa-birthday-cake"}), 
+          ItemsBox({name: "Supplies", inputsComponent: SupplyInputs, activeItems: this.state.supplies, presetItems: PRESET_SUPPLIES, onUserInput: this.handleSuppliesInput, iconClass: "fa-cutlery"}), 
           TimeBox({onUserInput: this.handleTimeInput}), 
           OverheadBox({onUserInput: this.handleOverheadInput}), 
           DeliveryBox({onUserInput: this.handleDeliveryInput})
@@ -96,7 +96,10 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
       return (
           React.DOM.div({className: "panel input-box"}, 
           React.DOM.div({className: "panel-heading"}, 
-          React.DOM.h3({className: "panel-title"}, this.props.name)
+          React.DOM.h3({className: "panel-title"}, React.DOM.span({className: "fa-stack fa-lg " + this.props.name.toLowerCase()+"-icon"}, 
+  React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+  React.DOM.i({className: "fa fa-stack-1x fa-inverse " + this.props.iconClass})
+), " ", this.props.name)
           ), 
           React.DOM.div({className: "panel-body"}, 
           itemFields, 
@@ -113,10 +116,10 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
 
 var IngredientInputs = React.createClass({displayName: 'IngredientInputs',
   handleChange: function(event) {
-    var changes = { 
-      quantity: this.refs.ingredientQuantityInput.getDOMNode().value, 
-      name: this.refs.ingredientNameInput.getDOMNode().value, 
-      cost: this.refs.ingredientCostInput.getDOMNode().value 
+    var changes = {
+      quantity: this.refs.ingredientQuantityInput.getDOMNode().value,
+      name: this.refs.ingredientNameInput.getDOMNode().value,
+      cost: this.refs.ingredientCostInput.getDOMNode().value
     };
     this.props.onItemChange(this.props.item.key, changes);
   },
@@ -150,10 +153,10 @@ var IngredientInputs = React.createClass({displayName: 'IngredientInputs',
 
 var SupplyInputs = React.createClass({displayName: 'SupplyInputs',
   handleChange: function(event) {
-    var changes = { 
-      quantity: this.refs.supplyQuantityInput.getDOMNode().value, 
-      name: this.refs.supplyNameInput.getDOMNode().value, 
-      cost: this.refs.supplyCostInput.getDOMNode().value 
+    var changes = {
+      quantity: this.refs.supplyQuantityInput.getDOMNode().value,
+      name: this.refs.supplyNameInput.getDOMNode().value,
+      cost: this.refs.supplyCostInput.getDOMNode().value
     };
     this.props.onItemChange(this.props.item.key, changes);
   },
@@ -205,10 +208,13 @@ var TimeBox = React.createClass({displayName: 'TimeBox',
       return (
         React.DOM.div({className: "panel input-box"}, 
         React.DOM.div({className: "panel-heading"}, 
-        React.DOM.h3({className: "panel-title"}, "Time")
+        React.DOM.h3({className: "panel-title"}, React.DOM.span({className: "fa-stack fa-lg time-icon"}, 
+  React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+  React.DOM.i({className: "fa fa-clock-o fa-stack-1x fa-inverse"})
+), " Time")
         ), 
         React.DOM.div({className: "panel-body"}, 
-        React.DOM.p(null, React.DOM.strong(null, "How much is your time worth?")), 
+        React.DOM.p(null, React.DOM.strong(null, "How many hours do you put in for this recipe, and how much is your time worth?")), 
         React.DOM.div({className: "input-fields"}, 
         React.DOM.input({type: "number", className: "form-control input-sm", ref: "timeHoursInput", onChange: this.handleChange}), " hours at ", React.DOM.div({className: "input-group input-group-sm"}, 
         React.DOM.span({className: "input-group-addon"}, "$"), 
@@ -232,7 +238,10 @@ var OverheadBox = React.createClass({displayName: 'OverheadBox',
       return(
         React.DOM.div({className: "panel input-box"}, 
         React.DOM.div({className: "panel-heading"}, 
-        React.DOM.h3({className: "panel-title"}, "Overhead")
+        React.DOM.h3({className: "panel-title"}, React.DOM.span({className: "fa-stack fa-lg overhead-icon"}, 
+  React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+  React.DOM.i({className: "fa fa-plug fa-stack-1x fa-inverse"})
+), " Overhead")
         ), 
         React.DOM.div({className: "panel-body"}, 
         React.DOM.div({className: "input-fields"}, 
@@ -257,9 +266,12 @@ var DeliveryBox = React.createClass({displayName: 'DeliveryBox',
   },
     render: function() {
       return (
-        React.DOM.div({className: "panel input-box"}, 
+        React.DOM.div({className: "panel input-box delivery-icon"}, 
         React.DOM.div({className: "panel-heading"}, 
-        React.DOM.h3({className: "panel-title"}, "Delivery")
+        React.DOM.h3({className: "panel-title"}, React.DOM.span({className: "fa-stack fa-lg"}, 
+  React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+  React.DOM.i({className: "fa fa-truck fa-stack-1x fa-inverse"})
+), " Delivery")
         ), 
         React.DOM.div({className: "panel-body"}, 
         React.DOM.div({className: "input-fields"}, 
@@ -289,7 +301,7 @@ var CalculationBox = React.createClass({displayName: 'CalculationBox',
     var deliveryTotal = (this.props.miles * this.props.rate).toFixed(2);
     var grandTotal = (Number(ingredientsTotal) + Number(suppliesTotal) + Number(timeTotal) + Number(overheadTotal) + Number(deliveryTotal)).toFixed(2);
     if (grandTotal > 0) {
-      
+
       var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.h4(null, React.DOM.em(null, "You should charge:"), " ", React.DOM.strong({className: "pull-right"}, "$", grandTotal)), React.DOM.a({onClick: this.handleClickReset, href: "#"}, "reset"))
     } else {
       var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.em(null, "Do something on the left to get started!"))
