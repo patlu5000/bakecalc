@@ -4,7 +4,7 @@ body {
 }
 
 body:after {
-  background-image: url('plaid.jpg');
+  background-image: url('/images/plaid.jpg');
   width: 100%;
   height: 100%;
   opacity : 0.4;
@@ -37,8 +37,13 @@ ul.item-links {
 }
 
 .item-link {
-  background-color: #B9C9D1;
-  cursor: pointer;
+  background-color: #e7928f;
+  border-color: #e7928f;
+}
+
+.item-link:hover {
+  background-color: #d9534e;
+  border-color: #d9534e;
 }
 
 .item-name {

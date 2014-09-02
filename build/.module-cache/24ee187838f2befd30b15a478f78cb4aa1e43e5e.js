@@ -189,7 +189,7 @@ var AddItemLink = React.createClass({displayName: 'AddItemLink',
     render: function() {
       var displayName = this.props.item.name || "something else";
       return(
-        React.DOM.a({onClick: this.handleClick, className: "item-link btn btn-danger btn-xs"}, displayName)
+        React.DOM.a({onClick: this.handleClick, className: "btn btn-danger btn-xs"}, displayName)
         );
     }
 });

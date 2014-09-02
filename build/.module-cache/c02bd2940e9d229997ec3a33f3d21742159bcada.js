@@ -85,7 +85,7 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
     render: function() {
       var itemLinks = _.difference(this.props.presetItems, this.props.activeItems).map(function(item) {
         return (
-          React.DOM.li(null, AddItemLink({onItemSelect: this.handleItemSelect, item: item}))
+          React.DOM.li({className: "col-md-3"}, AddItemLink({onItemSelect: this.handleItemSelect, item: item}))
           );
       }.bind(this));
       var itemFields = this.props.activeItems.map(function(item) {
@@ -101,7 +101,7 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
           React.DOM.div({className: "panel-body"}, 
           itemFields, 
           React.DOM.div(null, "Choose your items below:"), 
-          React.DOM.ul({className: "item-links list-inline"}, 
+          React.DOM.ul({className: "item-links list-inline row"}, 
           itemLinks, 
           React.DOM.li(null, AddItemLink({onItemSelect: this.handleItemSelect, item: { quantity: 1, name: "", cost: null}}))
           )
