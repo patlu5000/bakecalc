@@ -49,8 +49,8 @@ var Calculator = React.createClass({
           <div className="calculator row">
           <div className="col-md-8">
           <form className="form-inline">
-          <ItemsBox name="Ingredients" inputsComponent={IngredientInputs} activeItems={this.state.ingredients} presetItems={PRESET_INGREDIENTS} onUserInput={this.handleIngredientsInput} />
-          <ItemsBox name="Supplies" inputsComponent={SupplyInputs} activeItems={this.state.supplies} presetItems={PRESET_SUPPLIES} onUserInput={this.handleSuppliesInput} />
+          <ItemsBox name="Ingredients" inputsComponent={IngredientInputs} activeItems={this.state.ingredients} presetItems={PRESET_INGREDIENTS} onUserInput={this.handleIngredientsInput} iconClass="fa-birthday-cake"/>
+          <ItemsBox name="Supplies" inputsComponent={SupplyInputs} activeItems={this.state.supplies} presetItems={PRESET_SUPPLIES} onUserInput={this.handleSuppliesInput} iconClass="fa-cutlery"/>
           <TimeBox onUserInput={this.handleTimeInput} />
           <OverheadBox onUserInput={this.handleOverheadInput} />
           <DeliveryBox onUserInput={this.handleDeliveryInput} />
@@ -96,7 +96,13 @@ var ItemsBox = React.createClass({
       return (
           <div className="panel input-box">
           <div className="panel-heading">
-          <h3 className="panel-title">{this.props.name}</h3>
+            <h3 className="panel-title">
+              <span className={"fa-stack fa-lg " + this.props.name.toLowerCase()+"-icon"}>
+                <i className="fa fa-circle fa-stack-2x"></i>
+                <i className={"fa fa-stack-1x fa-inverse " + this.props.iconClass}></i>
+              </span>
+              {this.props.name}
+            </h3>
           </div>
           <div className="panel-body">
           {itemFields}
@@ -205,7 +211,13 @@ var TimeBox = React.createClass({
       return (
         <div className="panel input-box">
         <div className="panel-heading">
-        <h3 className="panel-title">Time</h3>
+          <h3 className="panel-title">
+            <span className="fa-stack fa-lg time-icon">
+              <i className="fa fa-circle fa-stack-2x"></i>
+              <i className="fa fa-clock-o fa-stack-1x fa-inverse"></i>
+            </span>
+            Time
+          </h3>
         </div>
         <div className="panel-body">
         <p><strong>How much is your time worth?</strong></p>
@@ -232,7 +244,13 @@ var OverheadBox = React.createClass({
       return(
         <div className="panel input-box">
         <div className="panel-heading">
-        <h3 className="panel-title">Overhead</h3>
+          <h3 className="panel-title">
+            <span className="fa-stack fa-lg overhead-icon">
+              <i className="fa fa-circle fa-stack-2x"></i>
+              <i className="fa fa-plug fa-stack-1x fa-inverse"></i>
+            </span>
+            Overhead
+          </h3>
         </div>
         <div className="panel-body">
         <div className="input-fields">
@@ -259,13 +277,19 @@ var DeliveryBox = React.createClass({
       return (
         <div className="panel input-box">
         <div className="panel-heading">
-        <h3 className="panel-title">Delivery</h3>
+          <h3 className="panel-title">
+            <span className="fa-stack fa-lg delivery-icon">
+              <i className="fa fa-circle fa-stack-2x"></i>
+              <i className="fa fa-truck fa-stack-1x fa-inverse"></i>
+            </span>
+            Delivery
+          </h3>
         </div>
         <div className="panel-body">
         <div className="input-fields">
         <input type="number" className="form-control input-sm" ref="deliveryMilesInput" onChange={this.handleChange} /> miles at <div className="input-group input-group-sm">
         <span className="input-group-addon">$</span>
-        <input defaultValue="0.56" type="number" className="form-control input-sm" ref="deliveryRateInput" onChange={this.handleChange} /> 
+        <input defaultValue="0.56" type="number" className="form-control input-sm" ref="deliveryRateInput" onChange={this.handleChange} />
         <span className="input-group-addon">/<sub>mile</sub></span>
         </div>
         </div>

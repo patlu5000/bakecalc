@@ -49,8 +49,8 @@ var Calculator = React.createClass({displayName: 'Calculator',
           React.DOM.div({className: "calculator row"}, 
           React.DOM.div({className: "col-md-8"}, 
           React.DOM.form({className: "form-inline"}, 
-          ItemsBox({name: "Ingredients", inputsComponent: IngredientInputs, activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput}), 
-          ItemsBox({name: "Supplies", inputsComponent: SupplyInputs, activeItems: this.state.supplies, presetItems: PRESET_SUPPLIES, onUserInput: this.handleSuppliesInput}), 
+          ItemsBox({name: "Ingredients", inputsComponent: IngredientInputs, activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput, iconClass: "fa-birthday-cake"}), 
+          ItemsBox({name: "Supplies", inputsComponent: SupplyInputs, activeItems: this.state.supplies, presetItems: PRESET_SUPPLIES, onUserInput: this.handleSuppliesInput, iconClass: "fa-cutlery"}), 
           TimeBox({onUserInput: this.handleTimeInput}), 
           OverheadBox({onUserInput: this.handleOverheadInput}), 
           DeliveryBox({onUserInput: this.handleDeliveryInput})
@@ -96,7 +96,13 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
       return (
           React.DOM.div({className: "panel input-box"}, 
           React.DOM.div({className: "panel-heading"}, 
-          React.DOM.h3({className: "panel-title"}, this.props.name)
+            React.DOM.h3({className: "panel-title"}, 
+              React.DOM.span({className: "fa-stack fa-lg " + this.props.name.toLowerCase()+"-icon"}, 
+                React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+                React.DOM.i({className: "fa fa-stack-1x fa-inverse " + this.props.iconClass})
+              ), 
+              this.props.name
+            )
           ), 
           React.DOM.div({className: "panel-body"}, 
           itemFields, 
@@ -205,7 +211,13 @@ var TimeBox = React.createClass({displayName: 'TimeBox',
       return (
         React.DOM.div({className: "panel input-box"}, 
         React.DOM.div({className: "panel-heading"}, 
-        React.DOM.h3({className: "panel-title"}, "Time")
+          React.DOM.h3({className: "panel-title"}, 
+            React.DOM.span({className: "fa-stack fa-lg time-icon"}, 
+              React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+              React.DOM.i({className: "fa fa-clock-o fa-stack-1x fa-inverse"})
+            ), 
+            "Time"
+          )
         ), 
         React.DOM.div({className: "panel-body"}, 
         React.DOM.p(null, React.DOM.strong(null, "How much is your time worth?")), 
@@ -232,7 +244,13 @@ var OverheadBox = React.createClass({displayName: 'OverheadBox',
       return(
         React.DOM.div({className: "panel input-box"}, 
         React.DOM.div({className: "panel-heading"}, 
-        React.DOM.h3({className: "panel-title"}, "Overhead")
+          React.DOM.h3({className: "panel-title"}, 
+            React.DOM.span({className: "fa-stack fa-lg overhead-icon"}, 
+              React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+              React.DOM.i({className: "fa fa-plug fa-stack-1x fa-inverse"})
+            ), 
+            "Overhead"
+          )
         ), 
         React.DOM.div({className: "panel-body"}, 
         React.DOM.div({className: "input-fields"}, 
@@ -259,7 +277,13 @@ var DeliveryBox = React.createClass({displayName: 'DeliveryBox',
       return (
         React.DOM.div({className: "panel input-box"}, 
         React.DOM.div({className: "panel-heading"}, 
-        React.DOM.h3({className: "panel-title"}, "Delivery")
+          React.DOM.h3({className: "panel-title"}, 
+            React.DOM.span({className: "fa-stack fa-lg delivery-icon"}, 
+              React.DOM.i({className: "fa fa-circle fa-stack-2x"}), 
+              React.DOM.i({className: "fa fa-truck fa-stack-1x fa-inverse"})
+            ), 
+            "Delivery"
+          )
         ), 
         React.DOM.div({className: "panel-body"}, 
         React.DOM.div({className: "input-fields"}, 

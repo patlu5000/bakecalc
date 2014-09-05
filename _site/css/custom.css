@@ -63,3 +63,24 @@ input[type="number"].form-control {
 
 .footer {
   margin-bottom: 15px; }
+
+.fa-stack {
+  font-size: 20px !important; }
+
+.ingredients-icon .fa-circle {
+  color: #04A19A; }
+
+.supplies-icon .fa-circle {
+  color: #F36E6D; }
+
+.delivery-icon .fa-circle {
+  color: #028A8E; }
+
+.overhead-icon .fa-circle {
+  color: #F04B55; }
+
+.time-icon .fa-circle {
+  color: #00575B; }
+
+.input-group-addon {
+  width: 0%; }
