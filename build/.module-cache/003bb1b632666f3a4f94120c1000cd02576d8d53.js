@@ -104,13 +104,13 @@ var ItemsBox = React.createClass({displayName: 'ItemsBox',
               this.props.name
             )
           ), 
-          React.DOM.div({className: "panel-body"}, 
-          React.DOM.div(null, "Choose your items below:"), 
           React.DOM.ul({className: "item-links list-inline"}, 
           itemLinks, 
           React.DOM.li(null, AddItemLink({onItemSelect: this.handleItemSelect, item: { quantity: 1, name: "", cost: null}}))
           ), 
-          itemFields
+          React.DOM.div({className: "panel-body"}, 
+          itemFields, 
+          React.DOM.div(null, "Choose your items below:")
           )
           )
           );
@@ -314,7 +314,7 @@ var CalculationBox = React.createClass({displayName: 'CalculationBox',
     var grandTotal = (Number(ingredientsTotal) + Number(suppliesTotal) + Number(timeTotal) + Number(overheadTotal) + Number(deliveryTotal)).toFixed(2);
     if (grandTotal > 0) {
       
-      var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.h4(null, React.DOM.em(null, "You should charge: "), React.DOM.strong({className: "pull-right"}, "$", grandTotal)), React.DOM.a({onClick: this.handleClickReset, href: "#"}, "reset"))
+      var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.h4(null, React.DOM.em(null, "You should charge:"), " ", React.DOM.strong({className: "pull-right"}, "$", grandTotal)), React.DOM.a({onClick: this.handleClickReset, href: "#"}, "reset"))
     } else {
       var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.em(null, "Do something on the left to get started!"))
     }

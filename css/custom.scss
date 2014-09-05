@@ -37,14 +37,18 @@ div.header {
 
 .input-box {
   background-color: #fff;
-}
+  .panel-title {
+    font-size: 24px;
+  }
 
-.input-box .panel-title {
-  font-size: 24px;
+  .panel-heading {
+    padding-bottom: 0;
+  }
 }
 
 ul.item-links {
   font-size: 17px;
+  margin-bottom: 15px;
 }
 
 .item-link {
@@ -75,12 +79,13 @@ input[type="number"].form-control {
   width: 100px !important;
 }
 
-.calculation-box .list-group-item {
-  background-color: #fff;
-}
-
-.calculation-box .panel-footer {
-  background-color: #fff;
+.calculation-box {
+  .list-group-item {
+    background-color: #fff;
+  }
+  .panel-footer {
+    background-color: #fff;
+  }
 }
 
 .footer {

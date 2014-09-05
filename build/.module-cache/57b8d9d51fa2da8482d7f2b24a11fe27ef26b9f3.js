@@ -314,7 +314,7 @@ var CalculationBox = React.createClass({displayName: 'CalculationBox',
     var grandTotal = (Number(ingredientsTotal) + Number(suppliesTotal) + Number(timeTotal) + Number(overheadTotal) + Number(deliveryTotal)).toFixed(2);
     if (grandTotal > 0) {
       
-      var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.h4(null, React.DOM.em(null, "You should charge: "), React.DOM.strong({className: "pull-right"}, "$", grandTotal)), React.DOM.a({onClick: this.handleClickReset, href: "#"}, "reset"))
+      var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.h4(null, React.DOM.em(null, "You should charge:"), " ", React.DOM.strong({className: "pull-right"}, "$", grandTotal)), React.DOM.a({onClick: this.handleClickReset, href: "#"}, "reset"))
     } else {
       var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.em(null, "Do something on the left to get started!"))
     }

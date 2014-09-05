@@ -105,12 +105,12 @@ var ItemsBox = React.createClass({
             </h3>
           </div>
           <div className="panel-body">
-          {itemFields}
           <div>Choose your items below:</div>
           <ul className="item-links list-inline">
           {itemLinks}
           <li><AddItemLink onItemSelect={this.handleItemSelect} item={{ quantity: 1, name: "", cost: null }} /></li>
           </ul>
+          {itemFields}
           </div>
           </div>
           );
@@ -314,7 +314,7 @@ var CalculationBox = React.createClass({
     var grandTotal = (Number(ingredientsTotal) + Number(suppliesTotal) + Number(timeTotal) + Number(overheadTotal) + Number(deliveryTotal)).toFixed(2);
     if (grandTotal > 0) {
       
-      var panelFooter = <div className="panel-footer"><h4><em>You should charge:</em> <strong className="pull-right">${grandTotal}</strong></h4><a onClick={this.handleClickReset} href="#">reset</a></div>
+      var panelFooter = <div className="panel-footer"><h4><em>You should charge: </em><strong className="pull-right">${grandTotal}</strong></h4><a onClick={this.handleClickReset} href="#">reset</a></div>
     } else {
       var panelFooter = <div className="panel-footer"><em>Do something on the left to get started!</em></div>
     }

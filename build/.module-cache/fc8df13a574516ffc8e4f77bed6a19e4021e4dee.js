@@ -47,7 +47,7 @@ var Calculator = React.createClass({displayName: 'Calculator',
     render: function() {
       return (
           React.DOM.div({className: "calculator row"}, 
-          React.DOM.div({className: "col-md-8"}, 
+          React.DOM.div({className: "col-md-7"}, 
           React.DOM.form({className: "form-inline"}, 
           ItemsBox({name: "Ingredients", inputsComponent: IngredientInputs, activeItems: this.state.ingredients, presetItems: PRESET_INGREDIENTS, onUserInput: this.handleIngredientsInput, iconClass: "fa-birthday-cake"}), 
           ItemsBox({name: "Supplies", inputsComponent: SupplyInputs, activeItems: this.state.supplies, presetItems: PRESET_SUPPLIES, onUserInput: this.handleSuppliesInput, iconClass: "fa-cutlery"}), 
@@ -56,7 +56,7 @@ var Calculator = React.createClass({displayName: 'Calculator',
           DeliveryBox({onUserInput: this.handleDeliveryInput})
           )
           ), 
-          React.DOM.div({className: "col-md-4"}, 
+          React.DOM.div({className: "col-md-5"}, 
           CalculationBox({ingredients: this.state.ingredients, supplies: this.state.supplies, hours: this.state.hours, wage: this.state.wage, overhead: this.state.overhead, miles: this.state.miles, rate: this.state.rate, onReset: this.resetAllInput})
           )
           )
@@ -314,7 +314,7 @@ var CalculationBox = React.createClass({displayName: 'CalculationBox',
     var grandTotal = (Number(ingredientsTotal) + Number(suppliesTotal) + Number(timeTotal) + Number(overheadTotal) + Number(deliveryTotal)).toFixed(2);
     if (grandTotal > 0) {
       
-      var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.h4(null, React.DOM.em(null, "You should charge: "), React.DOM.strong({className: "pull-right"}, "$", grandTotal)), React.DOM.a({onClick: this.handleClickReset, href: "#"}, "reset"))
+      var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.h4(null, React.DOM.em(null, "You should charge:"), " ", React.DOM.strong({className: "pull-right"}, "$", grandTotal)), React.DOM.a({onClick: this.handleClickReset, href: "#"}, "reset"))
     } else {
       var panelFooter = React.DOM.div({className: "panel-footer"}, React.DOM.em(null, "Do something on the left to get started!"))
     }

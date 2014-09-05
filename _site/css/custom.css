@@ -26,12 +26,14 @@ div.header a:hover {
 
 .input-box {
   background-color: #fff; }
-
-.input-box .panel-title {
-  font-size: 24px; }
+  .input-box .panel-title {
+    font-size: 24px; }
+  .input-box .panel-heading {
+    padding-bottom: 0; }
 
 ul.item-links {
-  font-size: 17px; }
+  font-size: 17px;
+  margin-bottom: 15px; }
 
 .item-link {
   background-color: #e7928f;
@@ -57,7 +59,6 @@ input[type="number"].form-control {
 
 .calculation-box .list-group-item {
   background-color: #fff; }
-
 .calculation-box .panel-footer {
   background-color: #fff; }
 
